@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Pipes.gd" type="Script" id=2]
+[ext_resource path="res://Black.Png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 46.1004 )
+
+[sub_resource type="OccluderPolygon2D" id=4]
+polygon = PoolVector2Array( -10.1471, 49.92, 10.1471, 49.92, 10.1471, 142.08, -10.1471, 142.08 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( -10.1471, -49.92, 10.1471, -49.92, 8.11771, -203.68, -8.11771, -203.68 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[node name="PipeNode" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Pipes" type="StaticBody2D" parent="." groups=["Pipe"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pipes"]
+position = Vector2( 0, 2400 )
+scale = Vector2( 3.942, 50 )
+shape = SubResource( 1 )
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Pipes/CollisionShape2D"]
+position = Vector2( 0, -96 )
+scale = Vector2( 0.992462, 0.999596 )
+occluder = SubResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Pipes/CollisionShape2D"]
+position = Vector2( 0, 15.4 )
+rotation = 3.14159
+scale = Vector2( 2.52964, -15.376 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Pipes"]
+position = Vector2( 0, -2400 )
+scale = Vector2( 3.942, 50 )
+shape = SubResource( 1 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Pipes/CollisionShape2D2"]
+position = Vector2( 0, 96 )
+scale = Vector2( 0.9911, 0.999528 )
+occluder = SubResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="Pipes/CollisionShape2D2"]
+position = Vector2( 5.82077e-11, -15.36 )
+rotation = -3.14159
+scale = Vector2( 2.52257, -15.3661 )
+texture = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="." groups=["ScoreArea"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2( 1.76, 10.92 )
+shape = SubResource( 2 )
+
+[node name="PipeDestroyer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="PipeDestroyer" to="." method="_on_PipeDestroyer_timeout"]
